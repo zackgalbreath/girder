@@ -44,6 +44,7 @@ def configureServer(test=False, plugins=None, curConfig=None):
         curConfig = config.getConfig()
 
     curStaticRoot = constants.STATIC_ROOT_DIR
+    staticPath = '/static' if test else '/%s' % curConfig['server']['static_root']
 
     appconf = {
         '/': {
@@ -52,7 +53,7 @@ def configureServer(test=False, plugins=None, curConfig=None):
             'request.show_tracebacks': test,
             'request.methods_with_bodies': ('POST', 'PUT', 'PATCH')
         },
-        '/static': {
+        staticPath: {
             'tools.staticdir.on': True,
             'tools.staticdir.dir': 'clients/web/static'
         }
