@@ -35,11 +35,12 @@ before_install:
     - cmake --version
     - mkdir -p $HOME/.cache/node_modules || true
     - ln -sf $HOME/.cache/node_modules .
-    - nvm install v2.3.3
+    - nvm install v6.3.1
     - npm install -g npm
     - node --version
     - npm --version
     - npm prune
+    #- npm config set registry http://registry.npmjs.org/
     - pip install -U pip virtualenv
 install:
     - pip install -r requirements-dev.txt -e .[plugins] -e clients/python
