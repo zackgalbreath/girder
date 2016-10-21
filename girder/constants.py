@@ -25,7 +25,11 @@ import json
 
 PACKAGE_DIR = os.path.dirname(os.path.abspath(__file__))
 ROOT_DIR = os.path.dirname(PACKAGE_DIR)
-LOG_ROOT = os.path.join(os.path.expanduser('~'), '.girder', 'logs')
+if not os.environ.get('GIRDER_STANDARD_PYTHON_LOGGING'):
+    LOG_ROOT = os.path.join(os.path.expanduser('~'), '.girder', 'logs')
+else:
+    LOG_ROOT = None
+
 ROOT_PLUGINS_PACKAGE = 'girder.plugins'
 MAX_LOG_SIZE = 1024 * 1024 * 10  # Size in bytes before logs are rotated.
 LOG_BACKUP_COUNT = 5

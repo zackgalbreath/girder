@@ -47,7 +47,8 @@ def _loadConfigsByPrecedent():
         configPaths.append(os.path.join(PACKAGE_DIR, 'conf', 'girder.local.cfg'))
 
     configPaths.append(os.path.join('/etc', 'girder.cfg'))
-    configPaths.append(os.path.join(os.path.expanduser('~'), '.girder', 'girder.cfg'))
+    if not os.environ.get('GIRDER_NO_SYSTEM_USER'):
+        configPaths.append(os.path.join(os.path.expanduser('~'), '.girder', 'girder.cfg'))
 
     if 'GIRDER_CONFIG' in os.environ:
         configPaths.append(os.environ['GIRDER_CONFIG'])

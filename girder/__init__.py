@@ -86,6 +86,9 @@ def _setupLogger():
     """
     Sets up the Girder logger.
     """
+    if os.environ.get('GIRDER_STANDARD_PYTHON_LOGGING'):
+        return logging
+
     logger = logging.getLogger('girder')
     logger.setLevel(logging.DEBUG)
 
