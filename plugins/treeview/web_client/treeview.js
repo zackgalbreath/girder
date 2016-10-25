@@ -1,3 +1,5 @@
+import { apiRoot } from 'girder/rest';
+
 /**
  * @param {object} [options]
  * @param {string} [api=girder.apiRoot]
@@ -22,7 +24,6 @@
  *   A mapping of model type to icon class to override defaults.
  * @param {boolean} [mockMutations=false] Mock all calls write calls to the server
  */
-
 $.fn.girderTreeview = function (options) {
     'use strict';
 
@@ -30,7 +31,7 @@ $.fn.girderTreeview = function (options) {
     var tree;
     var $el;
 
-    var api = options.api || girder.apiRoot;
+    var api = options.api || apiRoot;
     options.icon = options.icon || $.noop;
     var $alert = $(options.alert) || $('<div/>').addClass('gt-alert').appendTo(this);
 
