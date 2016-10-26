@@ -146,20 +146,20 @@ $.fn.girderTreeview = function (options) {
 
     var glyphOpts = {
         map: $.extend({
-            doc: 'glyphicon glyphicon-file',
-            docOpen: 'glyphicon glyphicon-file',
-            checkbox: 'glyphicon glyphicon-unchecked',
-            checkboxSelected: 'glyphicon glyphicon-check',
-            checkboxUnknown: 'glyphicon glyphicon-share',
-            dragHelper: 'glyphicon glyphicon-play',
-            dropMarker: 'glyphicon glyphicon-arrow-right',
-            error: 'glyphicon glyphicon-warning-sign',
-            expanderClosed: 'glyphicon glyphicon-menu-right',
-            expanderLazy: 'glyphicon glyphicon-menu-right',  // glyphicon-plus-sign
-            expanderOpen: 'glyphicon glyphicon-menu-down',  // glyphicon-collapse-down
-            folder: 'glyphicon glyphicon-folder-close',
-            folderOpen: 'glyphicon glyphicon-folder-open',
-            loading: 'glyphicon glyphicon-refresh glyphicon-spin'
+            doc: 'icon-doc-text',
+            docOpen: 'icon-doc-text',
+            checkbox: 'icon-check-empty',
+            checkboxSelected: 'icon-check',
+            checkboxUnknown: 'icon-export',
+            dragHelper: 'icon-play',
+            dropMarker: 'icon-right-big',
+            error: 'icon-attention',
+            expanderClosed: 'icon-right-open',
+            expanderLazy: 'icon-right-open',
+            expanderOpen: 'icon-down-open',
+            folder: 'icon-folder',
+            folderOpen: 'icon-folder-open',
+            loading: 'icon-spin3'
         }, options.glyph)
     };
 

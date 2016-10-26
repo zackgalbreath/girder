@@ -5,7 +5,12 @@ var TreeviewBody = View.extend({
         this.render();
     },
     render: function () {
-        this.$el.girderTreeview();
+        this.$el.girderTreeview({
+            mockMutations: true,
+            edit: true,
+            dragAndDrop: true,
+            persist: true
+        });
     }
 });
 
