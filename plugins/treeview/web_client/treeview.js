@@ -1,4 +1,5 @@
 import { apiRoot } from 'girder/rest';
+import { getCurrentToken } from 'girder/auth';
 
 /**
  * @param {object} [options]
@@ -490,7 +491,7 @@ $.fn.girderTreeview = function (options) {
     }
 
     function restRequest(rest) {
-        var token = options.token || girder.currentToken;
+        var token = options.token || getCurrentToken();
 
         rest.method = rest.method || 'GET';
         rest.data = $.extend({}, rest.data || {});
@@ -556,7 +557,7 @@ $.fn.girderTreeview = function (options) {
     var source = $.ajax({
         url: api + '/user/me',
         headers: {
-            'Girder-Token': options.token || girder.currentToken
+            'Girder-Token': options.token || getCurrentToken()
         }
     }).then(function (data) {
         var sources = [];
