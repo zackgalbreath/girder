@@ -85,7 +85,8 @@ module.exports = function (grunt) {
         var config = {}, npm;
         var cfgFile = 'no config file';
 
-        if (!fs.statSync(dir).isDirectory()) {
+        var info = fs.statSync(dir);
+        if (!info.isDirectory() && !info.isSymbolicLink()) {
             grunt.fail.warn('Plugin directory not found: ' + dir);
             return;
         }
