@@ -7,9 +7,6 @@ import body from '../templates/body.pug';
 import '../stylesheets/body.styl';
 
 var TreeviewBody = View.extend({
-    events: {
-        'g-focus .g-treeview-widget': 'showDetails'
-    },
     initialize: function (settings) {
         this.tree = new TreeWidget({
             mockMutations: true,
@@ -21,6 +18,7 @@ var TreeviewBody = View.extend({
         this.details = new DetailsWidget({
             parentView: this
         });
+        this.listenTo(this.tree, 'focus', this.showDetails);
         this.render();
     },
     render: function () {
@@ -28,8 +26,7 @@ var TreeviewBody = View.extend({
         this.tree.setElement(this.$('.g-treeview-widget')).render();
         this.details.setElement(this.$('.g-treeview-details')).render();
     },
-    showDetails: function (evt, node) {
-        var model = node.data.model;
+    showDetails: function (model) {
         this.details.showModel(model);
     }
 });
