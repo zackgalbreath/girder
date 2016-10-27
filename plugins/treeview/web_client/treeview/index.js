@@ -1,6 +1,8 @@
 import { apiRoot } from 'girder/rest';
 import { getCurrentToken } from 'girder/auth';
 
+import * as process from './process';
+
 /**
  * @param {object} [options]
  * @param {string} [api=girder.apiRoot]
@@ -118,7 +120,7 @@ $.fn.girderTreeview = function (options) {
         }).then(function (me) {
             user = me;
             return restRequest({
-                url: api + '/folder',
+                url: '/folder',
                 data: {
                     parentType: me._modelType,
                     parentId: me._id,
@@ -127,7 +129,7 @@ $.fn.girderTreeview = function (options) {
             }).then(function (folders) {
                 if (!folders.length) {
                     return restRequest({
-                        url: api + '/folder',
+                        url: '/folder',
                         method: 'POST',
                         data: {
                             name: 'Recycle Bin',
@@ -237,7 +239,7 @@ $.fn.girderTreeview = function (options) {
     var create = {
         folder: function (model) {
             return restRequest({
-                url: api + '/folder',
+                url: '/folder',
                 method: 'POST',
                 data: {
                     parentType: model.parentCollection,
@@ -249,7 +251,7 @@ $.fn.girderTreeview = function (options) {
         },
         item: function (model) {
             return restRequest({
-                url: api + '/item',
+                url: '/item',
                 method: 'POST',
                 data: {
                     folderId: model.folderId,
@@ -264,7 +266,7 @@ $.fn.girderTreeview = function (options) {
     var move = {
         folder: function (model, oldParent, newParent) {
             return restRequest({
-                url: api + '/folder/' + model._id,
+                url: '/folder/' + model._id,
                 method: 'PUT',
                 data: {
                     parentId: newParent._id,
@@ -274,7 +276,7 @@ $.fn.girderTreeview = function (options) {
                 return {
                     title: model.name + ' was moved.',
                     rest: {
-                        url: api + '/folder/' + model._id,
+                        url: '/folder/' + model._id,
                         method: 'PUT',
                         data: {
                             parentId: oldParent._id,
@@ -286,7 +288,7 @@ $.fn.girderTreeview = function (options) {
         },
         item: function (model, oldParent, newParent) {
             return restRequest({
-                url: api + '/item/' + model._id,
+                url: '/item/' + model._id,
                 method: 'PUT',
                 data: {
                     folderId: newParent._id
@@ -295,7 +297,7 @@ $.fn.girderTreeview = function (options) {
                 return {
                     title: model.name + ' was moved.',
                     rest: {
-                        url: api + '/item/' + model._id,
+                        url: '/item/' + model._id,
                         method: 'PUT',
                         data: {
                             foldertId: oldParent._id
@@ -309,7 +311,7 @@ $.fn.girderTreeview = function (options) {
     var rename = function (model, name) {
         var oldName = model.name;
         return restRequest({
-            url: api + '/' + model._modelType + '/' + model._id,
+            url: '/' + model._modelType + '/' + model._id,
             method: 'PUT',
             data: {
                 name: name
@@ -318,7 +320,7 @@ $.fn.girderTreeview = function (options) {
             return {
                 title: oldName + ' was renamed to ' + name,
                 rest: {
-                    url: api + '/' + model._modelType + '/' + model._id,
+                    url: '/' + model._modelType + '/' + model._id,
                     method: 'PUT',
                     data: {
                         name: oldName
@@ -350,7 +352,7 @@ $.fn.girderTreeview = function (options) {
                 };
             }
             return restRequest({
-                url: api + '/' + model._modelType + '/' + model._id,
+                url: '/' + model._modelType + '/' + model._id,
                 method: 'PUT',
                 data: data
             });
@@ -358,104 +360,12 @@ $.fn.girderTreeview = function (options) {
             return {
                 title: model.name + ' was deleted.',
                 rest: {
-                    url: api + '/' + model._modelType + '/' + model._id,
+                    url: '/' + model._modelType + '/' + model._id,
                     method: 'PUT',
                     data: undo
                 }
             };
         });
-    };
-
-    var process = {
-        collection: function (model) {
-            return {
-                title: model.name,
-                folder: true,
-                key: model._id,
-                write: model._accessLevel >= 1,
-                lazy: true,
-                rest: [{
-                    url: api + '/folder',
-                    data: {
-                        parentType: 'collection',
-                        parentId: model._id
-                    }
-                }],
-                model: model,
-                parentOf: ['folder']
-            };
-        },
-        folder: function (model, parent) {
-            return {
-                title: model.name,
-                folder: true,
-                key: model._id,
-                write: model._accessLevel >= 1,
-                lazy: true,
-                rest: [{
-                    url: api + '/item',
-                    data: {
-                        folderId: model._id
-                    }
-                }, {
-                    url: api + '/folder',
-                    data: {
-                        parentType: 'folder',
-                        parentId: model._id
-                    }
-                }],
-                model: model,
-                parent: parent,
-                parentOf: ['folder', 'item']
-            };
-        },
-        item: function (model, parent) {
-            return {
-                title: model.name,
-                folder: true,
-                key: model._id,
-                write: parent.write,
-                lazy: true,
-                rest: [{
-                    url: api + '/item/' + model._id + '/files'
-                }],
-                model: model,
-                parent: parent,
-                parentOf: ['file']
-            };
-        },
-        file: function (model, parent) {
-            return {
-                title: model.name,
-                write: parent.write,
-                key: model._id,
-                model: model,
-                parent: parent,
-                parentOf: []
-            };
-        },
-        user: function (model) {
-            return {
-                title: model.login,
-                folder: true,
-                key: model._id,
-                write: model._accessLevel >= 1,
-                lazy: true,
-                rest: [{
-                    url: api + '/folder',
-                    data: {
-                        parentType: 'user',
-                        parentId: model._id
-                    }
-                }],
-                tooltip: model.firstName + ' ' + model.lastName,
-                model: model,
-                parentOf: ['folder']
-            };
-        },
-        _more: function (model) {
-            return model;
-        }
     };
 
     function postProcess(data, parent) {
@@ -493,6 +403,7 @@ $.fn.girderTreeview = function (options) {
     function restRequest(rest) {
         var token = options.token || getCurrentToken();
 
+        rest.url = api + rest.url;
         rest.method = rest.method || 'GET';
         rest.data = $.extend({}, rest.data || {});
 
@@ -582,7 +493,7 @@ $.fn.girderTreeview = function (options) {
             tooltip: 'All collections',
             lazy: true,
             rest: [{
-                url: api + '/collection'
+                url: '/collection'
             }],
             root: 'collections',
             model: {},
@@ -596,7 +507,7 @@ $.fn.girderTreeview = function (options) {
             tooltip: 'All users',
             lazy: true,
             rest: [{
-                url: api + '/user',
+                url: '/user',
                 data: {
                     sort: 'login'
                 }
