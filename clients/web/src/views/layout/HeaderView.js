@@ -35,7 +35,9 @@ var LayoutHeaderView = View.extend({
     },
 
     render: function () {
-        this.$el.html(LayoutHeaderTemplate());
+        this.$el.html(LayoutHeaderTemplate({
+            title: 'Girder'
+        }));
 
         this.userView.setElement(this.$('.g-current-user-wrapper')).render();
         this.searchWidget.setElement(this.$('.g-quick-search-container')).render();

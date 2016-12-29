@@ -1,7 +1,7 @@
 .g-frontpage-header
   img.g-frontpage-logo(src=`${staticRoot}/img/Girder_Mark.png`, width="82")
   .g-frontpage-title-container
-    .g-frontpage-title Girder
-    .g-frontpage-subtitle Data management platform
+    .g-frontpage-title!= title
+    .g-frontpage-subtitle!= subtitle
 
 .g-frontpage-body!= paragraph
