@@ -36,7 +36,7 @@ var LayoutHeaderView = View.extend({
 
     render: function () {
         this.$el.html(LayoutHeaderTemplate({
-            title: 'Girder'
+            title: 'Kitware Data'
         }));
 
         this.userView.setElement(this.$('.g-current-user-wrapper')).render();

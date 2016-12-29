@@ -24,6 +24,7 @@ function subvars(text) {
     return text
       .replace('[[[loginState]]]', currentUser ? currentUserMd : anonUserMd)
       .replace('[[[buildInfo]]]', versionInfo.git ? gitBuildMd : dateBuildMd)
+      .replace('[[[staticRoot]]]', staticRoot)
       .replace('[[[apiRoot]]]', apiRoot)
       .replace('[[[username]]]', currentUser ? currentUser.get('login') : '')
       .replace('[[[SHA]]]', versionInfo.SHA || '')
@@ -67,12 +68,12 @@ var FrontPageView = View.extend({
 
         this.$el.html(FrontPageTemplate({
             staticRoot: staticRoot,
-            title: 'Girder',
+            title: 'Welcome to data.kitware.com!',
             logo: {
-                src: `${staticRoot}/img/Girder_Mark.png`,
+                src: `${staticRoot}/img/Kitware_Mark.png`,
                 width: 82
             },
-            subtitle: 'Data management platform',
+            subtitle: `Kitware data management in the cloud, powered by <img src="${staticRoot}/img/Girder_Favicon.png" width="24"> Girder`,
             paragraph: paragraph
         }));
 
