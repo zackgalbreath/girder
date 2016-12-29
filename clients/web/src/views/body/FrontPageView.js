@@ -11,8 +11,28 @@ import FrontPageTemplate from 'girder/templates/body/frontPage.pug';
 
 import 'girder/stylesheets/body/frontPage.styl';
 
-/**
- * This is the view for the front page of the app.
+import paragraphMd from 'girder/templates/body/content/paragraph.md';
+import currentUserMd from 'girder/templates/body/content/currentUser.md';
+import anonUserMd from 'girder/templates/body/content/anonUser.md';
+import gitBuildMd from 'girder/templates/body/content/gitBuild.md';
+import dateBuildMd from 'girder/templates/body/content/dateBuild.md';
+import versionInfoMd from 'girder/templates/body/content/versionInfo.md';
+
+function subvars(text) {
+    const currentUser = getCurrentUser();
+
+    return text
+      .replace('[[[loginState]]]', currentUser ? currentUserMd : anonUserMd)
+      .replace('[[[buildInfo]]]', versionInfo.git ? gitBuildMd : dateBuildMd)
+      .replace('[[[apiRoot]]]', apiRoot)
+      .replace('[[[username]]]', currentUser ? currentUser.get('login') : '')
+      .replace('[[[SHA]]]', versionInfo.SHA || '')
+      .replace('[[[shortSHA]]]', versionInfo.shortSHA || '')
+      .replace('[[[date]]]', versionInfo.date ? new Date(versionInfo.date).toLocaleDateString() : '')
+      .replace('[[[apiVersion]]]', versionInfo.apiVersion || '');
+}
+
+/** This is the view for the front page of the app.
  */
 var FrontPageView = View.extend({
     events: {
@@ -43,11 +63,13 @@ var FrontPageView = View.extend({
     },
 
     render: function () {
+        const paragraph = subvars(paragraphMd);
+
         this.$el.html(FrontPageTemplate({
-            apiRoot: apiRoot,
             staticRoot: staticRoot,
-            currentUser: getCurrentUser(),
-            versionInfo: versionInfo
+            title: 'Girder',
+            subtitle: 'Data management platform',
+            paragraph: paragraph
         }));
 
         return this;

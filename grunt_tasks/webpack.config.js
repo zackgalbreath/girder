@@ -147,6 +147,12 @@ module.exports = {
                     'pug-loader'
                 ]
             },
+            // Markdown
+            {
+                test: /\.md$/,
+                include: loaderPaths,
+                loaders: ['html-loader', 'markdown-loader']
+            },
             // PNG, JPEG
             {
                 test: /\.(png|jpg)$/,
