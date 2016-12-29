@@ -68,6 +68,10 @@ var FrontPageView = View.extend({
         this.$el.html(FrontPageTemplate({
             staticRoot: staticRoot,
             title: 'Girder',
+            logo: {
+                src: `${staticRoot}/img/Girder_Mark.png`,
+                width: 82
+            },
             subtitle: 'Data management platform',
             paragraph: paragraph
         }));
