@@ -84,6 +84,10 @@ module.exports = function (grunt) {
         grunt.config.merge(cfg);
     };
 
+    var getPluginLocalNodePath = function (plugin) {
+        return path.resolve(path.join('node_modules', `girder_plugin_${plugin}`));
+    };
+
     var configurePluginForBuilding = function (dir) {
         var plugin = path.basename(dir);
         var json = path.resolve(dir, 'plugin.json');
@@ -142,7 +146,7 @@ module.exports = function (grunt) {
         if (config.npm && config.npm.install) {
             pluginNodeDir = path.resolve(dir, 'node_modules');
         } else {
-            pluginNodeDir = path.resolve(process.cwd(), 'node_modules_' + plugin, 'node_modules');
+            pluginNodeDir = path.join(getPluginLocalNodePath(plugin), 'node_modules');
         }
 
         // Add webpack target and name resolution for this plugin if
@@ -274,7 +278,7 @@ module.exports = function (grunt) {
             // If the plugin requested to install the dependencies in its own
             // dedicated directory, set the prefix option.
             if (localNodeModules === 'true') {
-                args = args.concat(['--prefix', path.resolve('node_modules_' + plugin)]);
+                args = args.concat(['--prefix', getPluginLocalNodePath(plugin)]);
             }
 
             // Get the list of the packages to install and append them to the
