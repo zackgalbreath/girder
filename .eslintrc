@@ -1,3 +1,4 @@
 {
     "extends": "girder",
+    "complexity": ["error", {"max": 14}],
 }
