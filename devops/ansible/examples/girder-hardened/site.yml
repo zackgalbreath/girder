@@ -14,6 +14,19 @@
           ssl_certificate_key /etc/ssl/default_server/default_server.key;
           ssl_certificate /etc/ssl/default_server/default_server.pem;
 
+          add_header X-Content-Type-Options nosniff;
+          add_header X-Frame-Options DENY;
+          add_header Content-Security-Policy "style-src 'self' https://fonts.googleapis.com 'sha256-I08hTk63KqFj9IjGtMeORROxIYJYsBEazDOd2hkXWZY='
+                                                                                            'sha256-zB4+dg/iQaGd+pLwCZo03/lJhn/b6UNYzJppzv3EEAc='
+                                                                                            'sha256-h8Ck0CS7cKiFtPMm/8DjdkPXgP8gxqL7G997urcLS28='
+                                                                                            'sha256-MGNMaa1KDEaQ0N9k9XVIdXWtkb9PIkCbTCFGKcQTs7Q=';
+                                              font-src 'self' data: https://fonts.gstatic.com;
+                                              script-src 'self' 'sha256-zB4+dg/iQaGd+pLwCZo03/lJhn/b6UNYzJppzv3EEAc='
+                                                                'sha256-Z36Z11zZSKHfI2n01+6JycFJBmzRbTWWGsVvkXtuvaY=';";
+
+          # add_header Strict-Transport-Security "max-age=31536000; includeSubDomains";
+          # add_header Public-Key-Pins
+
           location / {
             proxy_set_header Host $proxy_host;
             proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
