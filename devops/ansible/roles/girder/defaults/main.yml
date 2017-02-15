@@ -9,3 +9,6 @@ girder_web: yes
 
 # the default is to only build assets when the git step results in new files
 girder_always_build_assets: no
+
+# experimental support, will probably break things
+girder_hardened: no
