@@ -8,6 +8,7 @@ use the Grunt task at the top level like so: ::
 
 or manually run the Makefile here: ::
 
+    cd docs
     make html
 
 This assumes that the Sphinx package is installed in your site packages or
