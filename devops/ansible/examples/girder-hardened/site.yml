@@ -27,6 +27,9 @@
           # add_header Strict-Transport-Security "max-age=31536000; includeSubDomains";
           # add_header Public-Key-Pins
 
+          # Hide NGINX version from headers
+          server_tokens off;
+
           location / {
             proxy_set_header Host $proxy_host;
             proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
@@ -41,6 +44,11 @@
             chunked_transfer_encoding off;
             proxy_read_timeout 600s;
             proxy_send_timeout 600s;
+          }
+
+          # Hide potentially sensitive files (dotfiles and autosave files)
+          location ~ /\. {
+            deny all;
           }
 
   pre_tasks:
